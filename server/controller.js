@@ -14,22 +14,24 @@ module.exports = {
 		const { address, price, imageURL } = req.body;
 		let newHouse = {
 			address,
-			price,
+			price: +price,
 			imageURL,
 			id: globalID,
 		};
 		houses.push(newHouse);
 		globalID++;
-		res.status(200).send(movies);
+		res.status(200).send(houses);
 	},
 	updateHouse: (req, res) => {
 		const { type } = req.body;
-		let index = houses.findIndex((elem) => elem.id === +req.params.id);
+		let index = houses.findIndex((elem) => +elem.id === +req.params.id);
 		if (type === "minus" && houses[index].price > 1) {
 			houses[index].price -= 10000;
 			res.status(200).send(houses);
 		} else if (type === "plus" && houses[index].price < 1000000000) {
+			// console.log(houses[index].price);
 			houses[index].price += 10000;
+			// console.log(houses[index].price);
 			res.status(200).send(houses);
 		} else {
 			res.status(400).send("Invalid price");
